@@ -62,7 +62,7 @@ export const App = () => {
             Альфа-Места
           </Typography.TitleResponsive>
           <Typography.Text view="primary-medium">Выберите категории локаций, которые хотите видеть на карте</Typography.Text>
-          <img src={bottom} alt="bottom" height={168} width="100%" style={{ marginBottom: '-1rem' }} />
+          <img src={bottom} alt="bottom" height={168} width="100%" style={{ marginBottom: '-1rem', objectFit: 'cover' }} />
         </div>
 
         <div className={appSt.boxswitchers}>
