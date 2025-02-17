@@ -9,6 +9,7 @@ import bottom from './assets/bottom.png';
 import { LS, LSKeys } from './ls';
 import { appSt } from './style.css';
 import { ThxLayout } from './thx/ThxLayout';
+import { sendDataToGA } from './utils/events';
 
 export const App = () => {
   const [loading, setLoading] = useState(false);
@@ -25,11 +26,22 @@ export const App = () => {
 
   const submitFinish = () => {
     setLoading(true);
-    // LS.setItem(LSKeys.ShowThx, true);
-    setThx(true);
-    setLoading(false);
+
+    sendDataToGA({
+      ATM_bank_branches: Number(checkedItems['Банкоматы и отделения']) as 1 | 0,
+      cashback_partners: Number(checkedItems['Кэшбэк у партнёров']) as 1 | 0,
+      discounts: Number(checkedItems['Скидки с картой Альфа-Банка']) as 1 | 0,
+      alfa_afisha: Number(checkedItems['Альфа-Афиша']) as 1 | 0,
+      gas_cashback: Number(checkedItems['Заправки с кэшбэком']) as 1 | 0,
+      culture: Number(checkedItems['Культура и искусство']) as 1 | 0,
+    }).then(() => {
+      // LS.setItem(LSKeys.ShowThx, true);
+      setThx(true);
+      setLoading(false);
+    });
   };
   const submit = () => {
+    window.gtag('event', '4371_continue_click_var1');
     if (Object.values(checkedItems).every(item => !item)) {
       setError(true);
       return;
@@ -130,10 +142,26 @@ export const App = () => {
           </SystemMessageMobile.Subtitle>
 
           <SystemMessageMobile.Controls>
-            <ButtonMobile size="m" block view="primary" onClick={() => setError(false)}>
+            <ButtonMobile
+              size="m"
+              block
+              view="primary"
+              onClick={() => {
+                window.gtag('event', '4371_back_var1');
+                setError(false);
+              }}
+            >
               Вернуться к выбору
             </ButtonMobile>
-            <ButtonMobile size="m" block view="transparent" onClick={submitFinish}>
+            <ButtonMobile
+              size="m"
+              block
+              view="transparent"
+              onClick={() => {
+                window.gtag('event', '4371_not_interested_var1');
+                submitFinish();
+              }}
+            >
               Мне это не интересно
             </ButtonMobile>
           </SystemMessageMobile.Controls>
