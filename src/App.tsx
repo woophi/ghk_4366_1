@@ -35,7 +35,7 @@ export const App = () => {
       gas_cashback: Number(checkedItems['Заправки с кэшбэком']) as 1 | 0,
       culture: Number(checkedItems['Культура и искусство']) as 1 | 0,
     }).then(() => {
-      // LS.setItem(LSKeys.ShowThx, true);
+      LS.setItem(LSKeys.ShowThx, true);
       setThx(true);
       setLoading(false);
     });
